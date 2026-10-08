@@ -567,3 +567,12 @@ logging.basicConfig(level=logging.INFO)
 
 @app.on_event("shutdown")
 async def shutdown(): client.close()
+
+if __name__ == "__main__":
+    import uvicorn
+    raw_port = os.environ.get("PORT", "8000")
+    try:
+        port = int(raw_port)
+    except (ValueError, TypeError):
+        port = 8000
+    uvicorn.run(app, host="0.0.0.0", port=port)
