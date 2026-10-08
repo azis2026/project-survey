@@ -1,0 +1,173 @@
+{
+  "accessibility": {
+    "focus": "Visible focus rings with 2px accent outline and high contrast ratios across all interactive surfaces.",
+    "hit_targets": "Minimum 44x44px tap targets on mobile survey flow and admin controls.",
+    "min_text": "WCAG AA compliant contrast ratio (minimum 4.5:1 for all body text)."
+  },
+  "colors": {
+    "mode": "light",
+    "semantic": {
+      "error": "#DC2626",
+      "info": "#2563EB",
+      "success": "#16A34A",
+      "warning": "#D97706"
+    },
+    "surfaces": [
+      {
+        "bg": "#FFFFFF",
+        "border": "#E2E8F0",
+        "contrast_muted": 6.5,
+        "contrast_text": 14.2,
+        "muted_text": "#64748B",
+        "name": "page",
+        "text": "#0F172A"
+      },
+      {
+        "bg": "#F8FAFC",
+        "border": "#E2E8F0",
+        "contrast_muted": 6,
+        "contrast_text": 13.5,
+        "muted_text": "#64748B",
+        "name": "card",
+        "text": "#0F172A"
+      },
+      {
+        "bg": "#0F172A",
+        "border": "#334155",
+        "contrast_muted": 5.8,
+        "contrast_text": 15.1,
+        "muted_text": "#94A3B8",
+        "name": "hero_overlay",
+        "text": "#F8FAFC"
+      },
+      {
+        "bg": "#1E293B",
+        "border": "#334155",
+        "contrast_muted": 6.1,
+        "contrast_text": 14.8,
+        "muted_text": "#94A3B8",
+        "name": "footer",
+        "text": "#F8FAFC"
+      },
+      {
+        "bg": "#2563EB",
+        "border": "#1D4ED8",
+        "contrast_muted": 5.1,
+        "contrast_text": 12.5,
+        "muted_text": "#DBEAFE",
+        "name": "primary_button",
+        "text": "#FFFFFF"
+      }
+    ]
+  },
+  "components": {
+    "borders_shadows": "Subtle 1px solid borders with 0 1px 3px rgba(0,0,0,0.05) shadow on cards.",
+    "buttons": "Solid primary button in #2563EB with white text and hover state #1D4ED8. Secondary button in outline style with neutral border.",
+    "cards": "Clean rounded-xl cards with generous internal padding and distinct header dividers.",
+    "icons": "Lucide icons rendered with consistent stroke-width 1.75.",
+    "inputs": "Clean 42px height inputs with 8px radius, 1px border #CBD5E1, and #2563EB focus ring.",
+    "radius": "12px standard border radius for cards and containers."
+  },
+  "direction": {
+    "rationale": "A modern, trustworthy interface tailored for Indonesian public services and enterprise feedback collection. It balances a welcoming, frictionless mobile survey experience for citizens with powerful, high-density analytics for administrators.",
+    "summary": "Crisp, professional indigo-anchored design system combining effortless mobile survey completion with comprehensive administrative insights."
+  },
+  "entry_surfaces": {
+    "auth": "Modal or dedicated view with clean credential inputs and clear error messaging.",
+    "hero": "Asymmetric layout featuring a live interactive mobile survey preview alongside clear value propositions for public service measurement."
+  },
+  "file_path": "/app/design_guidelines.json",
+  "imagery": {
+    "direction": "Clean professional workspaces, rating star concepts, and authentic team interaction photography.",
+    "slots": [
+      {
+        "slot": "survey_hero",
+        "treatment": "Solid panel backdrop with crisp typography and interactive preview frame",
+        "url": "https://images.pexels.com/photos/11894045/pexels-photo-11894045.jpeg"
+      },
+      {
+        "slot": "admin_feature",
+        "treatment": "Subtle neutral framing with high-contrast UI cards",
+        "url": "https://images.unsplash.com/photo-1788580210875-730e800bd6bc?crop=entropy\u0026cs=srgb\u0026fm=jpg"
+      }
+    ]
+  },
+  "layout": {
+    "alignment": "asymmetric",
+    "density": "comfortable",
+    "grid": "12 columns, max-width 1280px, 24px gutters across all breakpoints.",
+    "sections": [
+      {
+        "composition": "Split layout with value proposition and live interactive survey preview card.",
+        "mobile": "Stacked single column with preview placed immediately below headline.",
+        "name": "hero"
+      },
+      {
+        "composition": "Grid of 3 core pillars showing anonymity, instant analytics, and QR accessibility.",
+        "mobile": "Stacked single column cards.",
+        "name": "features"
+      },
+      {
+        "composition": "Clean tabbed interface switching between Public Survey Flow and Admin Dashboard.",
+        "mobile": "Vertical accordion or tab selector.",
+        "name": "app_workspace"
+      },
+      {
+        "composition": "Structured footer with status indicator and copyright.",
+        "mobile": "Centered stacked footer.",
+        "name": "footer"
+      }
+    ],
+    "spacing": "Section rhythm of 64px vertical spacing with consistent 24px container padding."
+  },
+  "motion": {
+    "entrance": "Fade up with 200ms ease-out duration.",
+    "hover": "Subtle scale (1.01) and border color transition.",
+    "principles": "Purposeful motion that guides attention without causing visual fatigue.",
+    "reduced_motion": "Disable all non-essential transform and opacity transitions when prefers-reduced-motion is active."
+  },
+  "release_rules": [
+    "No step numerals: process or journey sections use icons or small markers, never a rendered 1 or 01 (functional counters like \"2 of 3\" are fine).",
+    "Numerals never in the display face; one numeral treatment per page.",
+    "No eyebrow or kicker text above the hero headline.",
+    "Text over imagery is guaranteed readable (scrim or solid panel); small text never sits directly on a busy photo.",
+    "No white wash over content and no gradient ramp behind hero copy.",
+    "The accent colour is never used for small text (labels, captions, meta); accent is for headings, display figures, graphics and filled controls.",
+    "One primary and one secondary button treatment per page; the primary is a solid fill that differs from the surface behind it.",
+    "CTA buttons are solid, never glass or blurred.",
+    "No decorative text marquee; a moving logo strip only for more than two real client logos, never next to the hero.",
+    "Never fabricate proof: no invented statistics, ratings, awards, press, client names or logos, founding years, or attributed testimonials. Keep the brief's own phrasing. A thin brief makes a shorter page, not an invented one.",
+    "The hero headline says what makes this business different; if it would work for a competitor, rewrite it.",
+    "Information is never styled as a button.",
+    "The lower third carries at least one visual, never three text-only sections in a row at the end.",
+    "Testimonials show a quote and an attributed person; more than three use a user-controlled carousel.",
+    "Where social proof exists, the first proof section sits near the top of the body, not near the footer.",
+    "Grids tile cleanly: no orphan last-row item, equal-height cards, bento only where one cell genuinely leads.",
+    "Not everything centred: at least one major section uses a left-aligned or asymmetric composition."
+  ],
+  "typography": {
+    "families": [
+      {
+        "family": "Plus Jakarta Sans",
+        "import_line": "@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800\u0026display=swap');",
+        "role": "display",
+        "why": "Clean, modern geometric sans-serif that projects professionalism and clarity for both public survey inputs and dense analytics dashboards."
+      },
+      {
+        "family": "Inter",
+        "import_line": "@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700\u0026display=swap');",
+        "role": "body",
+        "why": "Exceptional legibility at all scales for data tables, comments, and form controls."
+      }
+    ],
+    "numerals": "Inter body font with tabular figures for all KPIs, statistics, table counts, and ratings.",
+    "scale": {
+      "body": "16px with line-height 1.5 and tracking -0.01em",
+      "display": "36px with line-height 1.2 and tracking -0.02em",
+      "h1": "30px with line-height 1.25 and tracking -0.02em",
+      "h2": "24px with line-height 1.3 and tracking -0.01em",
+      "h3": "20px with line-height 1.4",
+      "small": "14px with line-height 1.4"
+    }
+  }
+}

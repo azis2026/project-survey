@@ -1,0 +1,45 @@
+{
+  "summary": "Iteration 4 — tested 4 new features (custom date range, multi-admin users, branding, weekly digest + cron). 18/18 backend pytest cases pass. End-to-end Playwright flows all pass: super admin login + sidebar, dashboard rentang-tanggal, user create/delete via modal, seed admin un-deletable, branding form with all testids + send-digest-now, RBAC blocks regular admin from users/branding nav and redirects direct URL. Previous iteration-3 regression suite kept intact.",
+  "backend_issues": {
+    "critical": [],
+    "minor": []
+  },
+  "frontend_issues": {
+    "ui_bugs": [
+      {"component": "AdminLogin", "issue": "Login email/password/submit inputs lack data-testid (login-email-input / login-password-input / login-submit-button not found). Not blocking but inconsistent with rest of the app.", "selector": "AdminLogin form", "priority": "LOW"},
+      {"component": "UserEditor modal", "issue": "'Simpan' submit button has no type='submit' and no data-testid; the Nama <input> has no name attribute. Tests work only via positional index or button text. Add data-testid='save-user-button' and name='name' for robustness.", "selector": "[data-testid='user-editor'] button:has-text('Simpan')", "priority": "LOW"}
+    ],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "test_report_links": [
+    "/app/backend/tests/test_iteration4.py",
+    "/app/test_reports/pytest/pytest_iteration4.xml"
+  ],
+  "action_items": [
+    "(Optional/Low) Add data-testid to AdminLogin inputs: login-email-input, login-password-input, login-submit-button.",
+    "(Optional/Low) Add data-testid='save-user-button' and name='name' to UserEditor fields; ensure Simpan button is type='submit'."
+  ],
+  "critical_code_review_comments": [
+    "Cron webhook uses hmac.compare_digest for timing-safe bearer comparison and idempotency via X-Webhook-Id — correctly implemented.",
+    "run_weekly_digest is enqueued as a FastAPI BackgroundTask so the cron endpoint returns 2xx immediately as required.",
+    "Public GET /api/branding correctly excludes digest_recipient PII; MongoDB _id excluded everywhere.",
+    "BrandingIn validator enforces 6-digit HEX color and 300KB logo size — good input validation.",
+    "delete_user protects both the currently-logged-in account and the seeded ADMIN_EMAIL (super admin utama) — matches spec.",
+    "super_admin dependency is composed on top of current_admin — role check centralized and clean.",
+    "_assert_safe_email applies strong G2/G3 guardrails on outgoing email (no forms, https-only, no shorteners, same-site anchor text). Good.",
+    "Minor: UserIn.EmailStr uses the stricter email-validator deliverability check which rejects .local addresses — test files must use example.com (not a bug, just a note for test authors)."
+  ],
+  "updated_files": [
+    "/app/backend/tests/test_iteration4.py",
+    "/app/test_reports/pytest/pytest_iteration4.xml",
+    "/app/test_reports/iteration_4.json"
+  ],
+  "success_rate": {"backend": "100% (18/18)", "frontend": "100% of new feature flows"},
+  "test_credentials": "admin@survey.local / AdminSurvey2026! (super_admin). Test regular admins are created on the fly via POST /api/admin/users and cleaned up by the test fixture.",
+  "seed_data_creation": "Tests create and delete short-lived regular admin accounts (test_regadmin_*@example.com, test_crud_*@example.com, ui_*@example.com). Branding is modified in test_branding_update_and_public_reflects and restored via finally-block. No lingering test data expected.",
+  "retest_needed": false,
+  "main_agent_can_self_test": true,
+  "context_for_next_testing_agent": "All iteration-4 features verified. Known-good test fixtures: use @example.com (NOT .local) for created users because EmailStr strict deliverability check rejects reserved TLDs. For digest-send-now use delivered@resend.dev (Resend test address) — other recipients will 422 from the proxy as EXPECTED behavior. WEBHOOK_CRON_SECRET must be read from /app/backend/.env at test time (do not hardcode). The pytest.ini uses -n auto so tests run in parallel; fixtures are module-scoped and should still be safe.",
+  "rca of the issue": "No issues. Initial test fixture used *@example.local which was rejected by EmailStr — fixed in test file by switching to example.com."
+}
