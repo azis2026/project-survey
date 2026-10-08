@@ -201,6 +201,9 @@ async def startup():
 @api.get("/survey/{slug}")
 async def get_survey(slug: str):
     survey = await db.surveys.find_one({"slug": slug}, {"_id": 0})
+    if not survey:
+        await safe_seed()
+        survey = await db.surveys.find_one({"slug": slug}, {"_id": 0})
     if not survey: raise HTTPException(404, "Survey tidak ditemukan")
     return survey
 
