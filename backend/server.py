@@ -560,7 +560,23 @@ async def root():
 @app.get("/health")
 @api.get("/health")
 async def health():
-    return {"status": "ok"}
+    db_status = "unknown"
+    try:
+        await asyncio.wait_for(client.admin.command("ping"), timeout=1.5)
+        db_status = "connected"
+    except Exception as e:
+        db_status = f"disconnected ({type(e).__name__})"
+    
+    return {
+        "status": "ok",
+        "database": db_status,
+        "mongo_configured": bool(
+            os.environ.get("MONGO_URL")
+            or os.environ.get("MONGODB_URI")
+            or os.environ.get("MONGO_PRIVATE_URL")
+            or os.environ.get("DATABASE_URL")
+        ),
+    }
 
 app.include_router(api)
 logging.basicConfig(level=logging.INFO)
