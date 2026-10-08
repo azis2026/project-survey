@@ -52,7 +52,7 @@ allowed_origins = [o.strip().rstrip("/") for o in FRONTEND_URL.split(",") if o.s
 if not allowed_origins:
     allowed_origins = ["*"]
 
-client = AsyncIOMotorClient(MONGO_URL)
+client = AsyncIOMotorClient(MONGO_URL, serverSelectionTimeoutMS=5000)
 db = client[DB_NAME]
 app = FastAPI(title="Survey Kepuasan Layanan")
 api = APIRouter(prefix="/api")
@@ -188,12 +188,15 @@ async def seed():
             docs.append({"id": str(uuid.uuid4()), "survey_id": survey["id"], "rating": rating, "rating_label": LABELS[rating], "comment": comments[i % len(comments)], "created_at": (datetime.now(timezone.utc) - timedelta(days=i % 30, hours=i % 8)).isoformat(), "is_demo": True})
         await db.responses.insert_many(docs)
 
-@app.on_event("startup")
-async def startup():
+async def safe_seed():
     try:
         await seed()
     except Exception as e:
         logger.error(f"Startup seed error: {e}")
+
+@app.on_event("startup")
+async def startup():
+    asyncio.create_task(safe_seed())
 
 @api.get("/survey/{slug}")
 async def get_survey(slug: str):
