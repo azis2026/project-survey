@@ -565,8 +565,9 @@ async def health():
         await asyncio.wait_for(client.admin.command("ping"), timeout=1.5)
         db_status = "connected"
     except Exception as e:
-        db_status = f"disconnected ({type(e).__name__})"
+        db_status = f"disconnected ({type(e).__name__}: {e})"
     
+    sanitized_url = re.sub(r"://([^:@]+):([^@]+)@", r"://\1:***@", MONGO_URL) if MONGO_URL else ""
     return {
         "status": "ok",
         "database": db_status,
@@ -576,6 +577,7 @@ async def health():
             or os.environ.get("MONGO_PRIVATE_URL")
             or os.environ.get("DATABASE_URL")
         ),
+        "mongo_target": sanitized_url,
     }
 
 app.include_router(api)
