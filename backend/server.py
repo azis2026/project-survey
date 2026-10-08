@@ -30,7 +30,13 @@ from motor.motor_asyncio import AsyncIOMotorClient
 from openpyxl import Workbook
 from pydantic import BaseModel, EmailStr, Field, field_validator
 
-MONGO_URL = os.environ.get("MONGO_URL", "mongodb://localhost:27017")
+MONGO_URL = (
+    os.environ.get("MONGO_URL")
+    or os.environ.get("MONGODB_URI")
+    or os.environ.get("MONGO_PRIVATE_URL")
+    or os.environ.get("DATABASE_URL")
+    or "mongodb://localhost:27017"
+)
 DB_NAME = os.environ.get("DB_NAME", "survey_db")
 JWT_SECRET = os.environ.get("JWT_SECRET", "super-secret-key-change-in-production")
 ADMIN_EMAIL = os.environ.get("ADMIN_EMAIL", "admin@survey.local").lower()
@@ -56,7 +62,7 @@ logger = logging.getLogger(__name__)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=allowed_origins,
-    allow_origin_regex=r"https://.*\.vercel\.app|https://.*\.hf\.space|https://.*\.github\.io|http://localhost:.*",
+    allow_origin_regex=r"https://.*\.vercel\.app|https://.*\.up\.railway\.app|https://.*\.railway\.app|https://.*\.hf\.space|https://.*\.github\.io|http://localhost:.*",
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -183,7 +189,11 @@ async def seed():
         await db.responses.insert_many(docs)
 
 @app.on_event("startup")
-async def startup(): await seed()
+async def startup():
+    try:
+        await seed()
+    except Exception as e:
+        logger.error(f"Startup seed error: {e}")
 
 @api.get("/survey/{slug}")
 async def get_survey(slug: str):
@@ -544,6 +554,7 @@ async def cron_weekly_digest(request: Request, background: BackgroundTasks, auth
 async def root():
     return {"status": "ok", "app": "Survey Kepuasan Layanan API", "version": "1.0"}
 
+@app.get("/health")
 @api.get("/health")
 async def health():
     return {"status": "ok"}
