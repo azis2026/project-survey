@@ -90,3 +90,6 @@ android-sdk/
 .emergent/
 .ruff_cache/
 frontend/node_modules/.cache/default-development/1.pack
+
+hf-space/
+!frontend/.env.production
